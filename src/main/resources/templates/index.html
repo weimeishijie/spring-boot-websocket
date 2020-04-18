@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title th:text="webSocket"></title>
+	<meta charset="UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
+</head>
+<body>
+<div id="dpLTE" class="container-fluid">
+	<div class="row">
+		TEST WebSocket
+	</div>
+	<button onclick="getDataDate()">get date</button>
+	<div id="data"></div>
+</div>
+<script type="application/javascript" src="static/libs/jquery.min.js"></script>
+<script type="application/javascript" src="socket/sockjs.min.js"></script>
+<script type="application/javascript" src="socket/stomp.min.js"`></script>
+<script type="application/javascript">
+
+    $(function () {
+        connect();
+    });
+
+    var getDataDate = function () {
+        $.ajax({
+            type: "get",
+            url: "/hello",
+            dataType: "json",
+            success: function(){
+
+            }
+        });
+    };
+
+    var stompClient = null;
+
+    function connect() {
+        var socket = new SockJS('/webSocket');
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, function (frame) {
+            stompClient.subscribe('/topic/test', function (data) {
+                $("#data").html(data)
+            });
+        });
+    }
+
+    $(window).on('beforeunload', function(){
+        stompClient.disconnect();
+    });
+</script>
+</body>
+</html>

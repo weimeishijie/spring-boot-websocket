@@ -1,0 +1,10 @@
+spring:
+    thymeleaf:
+        cache: false
+        prefix: classpath:/templates/
+        suffix: .html
+        mode: LEGACYHTML5
+        encoding: UTF-8
+        content-type: text/html
+    resources: # 指定静态资源的路径
+        static-locations: classpath:/static/,classpath:/templates/
